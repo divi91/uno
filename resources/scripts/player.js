@@ -141,6 +141,7 @@ socket.on('played',function(players,playedCards,lastPlayerName, lastCardPlayed, 
 			elem.setAttribute("src", "./images/"+  playedCards[j]);
 			elem.setAttribute("id",tempId);
 			elem.setAttribute("class", "playedCardImage");
+			elem.addEventListener("dblclick", (e) => { undoPlay(e,playedCards[j]); }, false);
 
 			//elem.setAttribute("onclick", "playerplayed(" +'"'+ playedCards[j]+'"'+")");
 			//var pElem = document.createElement("p");
@@ -446,3 +447,77 @@ function dragDiv(e) {
   targ.style.top=coordY+e.clientY-offsetY+'px';
   return false;
 }
+
+function undoPlay(e){
+	e.preventDefault();
+	document.getElementById('drawValue').innerHTML = '';
+
+	if(playerTurn)
+	{
+		//logic of skip, reverse, play more than one cards has to be figured before implemting player turn
+	}
+	socket.emit('undo', playerName.value,e.target.id);
+}
+
+socket.on('undoPlayed',function(players,playedCards,lastPlayerName,winners)
+{
+	players = players.filter(function (el) {
+			return el != null;
+	});
+	document.getElementById('playedCard').innerHTML= "";
+	document.getElementById('playerCard').innerHTML= "";
+	displayPlayers(players, winners, lastPlayerName);
+	//again set player card here
+	for(var i in players){
+		if (players[i].name == playerName.value)
+		{
+			playerTurn = players[i].playerTurn ;
+			player = players[i];
+			if (player.cards!= null && player.cards.length >0) {
+ 				for (var j in  player.cards)
+				{
+					var tempId = player.cards[j].replace(".jpg","");
+					var elem = document.createElement("img");
+					elem.setAttribute("src", "./images/"+  player.cards[j]);
+					elem.setAttribute("id",tempId);
+					elem.setAttribute("class", "playerCardImage");
+					//elem.setAttribute("ondblclick", "playerplayed(" +'"'+ player.cards[j]+'"'+")");
+					elem.addEventListener("dblclick", (e) => { playerplayed(e,player.cards[j]); }, false);
+
+					if(document.getElementById(tempId) == null)
+					{
+						document.getElementById('playerCard').appendChild(elem);
+					}
+				}
+			}
+			else
+			{
+				document.getElementById('playerCard').innerHTML= "";
+			}
+		}
+  }
+
+	//set played card area
+	if (playedCards!= null && playedCards.length >0) {
+		for (var j in  playedCards)
+		{
+			var tempId = playedCards[j];
+			var elem = document.createElement("img");
+			elem.setAttribute("src", "./images/"+  playedCards[j]);
+			elem.setAttribute("id",tempId);
+			elem.setAttribute("class", "playedCardImage");
+			elem.addEventListener("dblclick", (e) => { undoPlay(e,playedCards[j]); }, false);
+
+			if(document.getElementById(tempId) == null)
+			{
+				var playedCardDiv = document.getElementById("playedCard");
+				playedCardDiv.scrollLeft = playedCardDiv.scrollWidth-playedCardDiv.clientWidth;
+				var fElem=document.createElement("figure");
+				fElem.setAttribute("class","figureitem");
+				fElem.appendChild(elem);
+				playedCardDiv.appendChild(fElem);
+			}
+		}
+	}
+	document.getElementById('drawValue').innerHTML = lastPlayerName + ' undid move';
+});

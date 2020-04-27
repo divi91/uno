@@ -538,6 +538,60 @@ io.sockets.on('connection', function(socket)
       }
     }
   });
+
+  socket.on('undo',function(playerName,cardPlayed)
+  {
+    //console.log(playerName + ' Played ' + cardPlayed + 'card');
+
+    if(cardPlayed.includes('Reverse'))
+    {
+      if(reverse == 'false')
+      {
+        reverse ='true';
+      }
+      else
+      {
+        reverse ='false';
+      }
+    }
+    undoPlay(players,playerName,cardPlayed);
+    for(var i in SOCKET_LIST){
+      //console.log('playing the card');
+      //console.log(players);
+      SOCKET_LIST[i].emit('undoPlayed',players,playedCards,playerName,winners);
+      SOCKET_LIST[i].emit('reversed',reverse);
+    }
+  });
+
+  function undoPlay(players,playerName, cardplayed)
+  {
+    if(playerName === "Dealer")
+    {
+
+    }
+    else
+    {
+      players = players.filter(function (el) {
+        return el != null;
+      });
+
+      //console.log("card played is:" + cardplayed);
+
+      var thisPlayer =  players.find(play =>
+      {
+        return play.name === playerName ;
+      });
+
+      var index = playedCards.indexOf(cardplayed);
+      if (index !== -1) playedCards.splice(index, 1);
+      thisPlayer.cards.push(cardplayed);
+      thisPlayer.cardCount+=1;
+      thisPlayer.playerTurn = true;
+      playerturnId =thisPlayer.id;
+    }
+  }
+
 });
+
 
 server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
