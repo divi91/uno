@@ -554,7 +554,7 @@ io.sockets.on('connection', function(socket)
         reverse ='false';
       }
     }
-    undoPlay(players,playerName,cardPlayed);
+    undoPlay(players,playerName,cardPlayed,winners);
     for(var i in SOCKET_LIST){
       //console.log('playing the card');
       //console.log(players);
@@ -563,7 +563,7 @@ io.sockets.on('connection', function(socket)
     }
   });
 
-  function undoPlay(players,playerName, cardplayed)
+  function undoPlay(players,playerName, cardplayed,winners)
   {
     if(playerName === "Dealer")
     {
@@ -588,6 +588,14 @@ io.sockets.on('connection', function(socket)
       thisPlayer.cardCount+=1;
       thisPlayer.playerTurn = true;
       playerturnId =thisPlayer.id;
+
+      if(winners.includes(thisPlayer.name))
+      {
+        winners.splice(winners.lastIndexOf(thisPlayer.name),1);
+        for(var i in SOCKET_LIST){
+          SOCKET_LIST[i].emit('addToChat',thisPlayer.name + ' has not won');
+        }
+      }
     }
   }
 
