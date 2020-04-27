@@ -141,6 +141,7 @@ socket.on('played',function(players,playedCards,lastPlayerName, lastCardPlayed, 
 			elem.setAttribute("src", "./images/"+  playedCards[j]);
 			elem.setAttribute("id",tempId);
 			elem.setAttribute("class", "playedCardImage");
+
 			//elem.setAttribute("onclick", "playerplayed(" +'"'+ playedCards[j]+'"'+")");
 			//var pElem = document.createElement("p");
 			//var node = document.createTextNode("he played");
@@ -148,24 +149,39 @@ socket.on('played',function(players,playedCards,lastPlayerName, lastCardPlayed, 
 
 			if(playedCards[j] == lastCardPlayed)
 			{
-				var pElem = document.createElement("p");
+				var fcElem=document.createElement("figcaption");
 				var node = document.createTextNode(lastPlayerName);
-				pElem.appendChild(node);
-				pElem.setAttribute("class","lastPlayed");
-				pElem.style.right = '-10%';
-				pElem.style.top = '63%';
+				fcElem.appendChild(node);
+				fcElem.setAttribute("class","figurecaption");
+				// var pElem = document.createElement("p");
+				// var node = document.createTextNode(lastPlayerName);
+				// pElem.appendChild(node);
+				// pElem.setAttribute("class","lastPlayed");
+				// pElem.style.right = '-10%';
+				// pElem.style.top = '63%';
 			}
 
 			if(document.getElementById(tempId) == null)
 			{
 				var playedCardDiv = document.getElementById("playedCard");
-				playedCardDiv.scrollTop = playedCardDiv.scrollHeight;
-				playedCardDiv.appendChild(elem);
+				playedCardDiv.scrollLeft = playedCardDiv.scrollWidth-playedCardDiv.clientWidth;
+				// playedCardDiv.scrollTop = playedCardDiv.scrollHeight;
+				// playedCardDiv.appendChild(elem);
+				//
+				// if(pElem!=null)
+				// {
+				// 	playedCardDiv.appendChild(pElem);
 
-				if(pElem!=null)
+				var fElem=document.createElement("figure");
+				fElem.setAttribute("class","figureitem");
+				fElem.appendChild(elem);
+
+				if(fcElem!=null)
 				{
-					playedCardDiv.appendChild(pElem);
+					fElem.appendChild(fcElem);
+
 				}
+				playedCardDiv.appendChild(fElem);
 			}
 		}
 	}
