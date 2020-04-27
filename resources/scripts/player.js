@@ -279,7 +279,8 @@ socket.on('addToPlayer',function(data,index)
 		var filtered = players.filter(function (el) {
 			return el != null;
 		});
-		displayPlayers(filtered,[]);
+		var newPlayer=true;
+		displayPlayers(filtered,[],[],newPlayer);
   }
 });
 
@@ -322,7 +323,7 @@ playerForm.onsubmit = function(e)
 	}
 }
 
-function displayPlayers(item, winners, lastPlayerName)
+function displayPlayers(item, winners, lastPlayerName, newPlayer)
 {
 	//console.log("display players");
 	//console.log(item);
@@ -341,7 +342,7 @@ function displayPlayers(item, winners, lastPlayerName)
 	var oListElem=document.createElement("ol");
 	oListElem.setAttribute("class","listPlayers")
 	for(var index in item){
-		if(item[index].cardCount == 0 && start!=true)
+		if(item[index].cardCount == 0 && start!=true && !newPlayer)
 		{
 			someoneWon = true;
 			if(winners!=null)
