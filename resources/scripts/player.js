@@ -230,6 +230,15 @@ socket.on('addToChat',function(data)
 			console.error(error);
 		}
   }
+	if(data.includes("has not won"))
+  {
+		try {
+			loserAudio.play();
+		}
+		catch(error) {
+			console.error(error);
+		}
+  }
 	if(data.includes("has shuffled the cards"))
   {
   	try {
