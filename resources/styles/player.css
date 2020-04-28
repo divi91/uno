@@ -198,6 +198,7 @@ body{
 .playedCardImage{
     height: 65%;
 }
+
 .playerCardImage{
     width:auto;
     height: 46%;
@@ -237,6 +238,25 @@ body{
 #btnCheck{
   margin-left: 20%;
 }
+
+@media screen and (max-width: 1024px) {
+  .buttonBar{
+    margin-top: 10%;
+  }
+  .welcomeUno{
+    width: 80vw;
+    height: auto;
+    left: 10vw;
+    top:20vh;
+  }
+  .figurecaption{
+    font-size: 20px;
+  }
+  .drawInformation{
+    font-size: 20px;
+  }
+}
+
 
 @media screen and (max-width: 767px) {
   .divMain{
@@ -288,20 +308,11 @@ body{
   {
     font-size: 12px;
   }
-  .lastPlayed{
-    font-size: 12px;
+  .figurecaption{
+    font-size: 8px;
     right:-5%;
   }
-}
-
-@media screen and (max-width: 800px) {
-  .buttonBar{
-    margin-top: 10%;
-  }
-  .welcomeUno{
-    width: 80vw;
-    height: auto;
-    left: 10vw;
-    top:20vh;
+  .drawInformation{
+    font-size: 8px;
   }
 }
