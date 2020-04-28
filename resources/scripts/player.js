@@ -257,6 +257,15 @@ socket.on('addToChat',function(data)
 			console.error(error);
 		}
   }
+	if(data.includes("Slapped"))
+  {
+  	try {
+			slapAudio.play();
+		}
+		catch(error) {
+			console.error(error);
+		}
+  }
   chatText.innerHTML += '<div class="chatCell">' + data + '</div>';
   chatText.scrollTop = chatText.scrollHeight;
 });
