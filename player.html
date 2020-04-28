@@ -41,8 +41,15 @@
         </div>
 
         <div id="divPlayerArea" class="col-8 divPlayerArea">
-          <img id="imgUnoDeck" class="imgDeck" src="./images/unoDeck.png" ondblclick="getFromDeck()">
-          <p id="drawValue" class="drawInformation"></p>
+          <div class="row" style="height:20%;">
+            <div class="col-6 text-right">
+              <img id="imgUnoDeck" class="imgDeck" src="./images/unoDeck.png" ondblclick="getFromDeck()">
+              <p id="drawValue" class="drawInformation"></p>
+            </div>
+            <div id="divbtnSlap" class="col-6 align-items-center text-left">
+              <input id = "btnSlap" class = "btnSlap" type="submit" value="Slap">
+            </div>
+          </div>
           <div id="playedCard" class = "divPlayedCardArea"></div>
           <div class="cardHeadings">My Cards</div>
           <div id="playerCard" class = "divPlayerCardArea"></div>
@@ -71,6 +78,15 @@
     </audio>
     <audio id="loserAudio">
       <source src="./Sounds/LoserSound.wav" type="audio/wav">
+    </audio>
+    <audio id="evillaughAudio">
+      <source src="./Sounds/evillaugh.wav" type="audio/wav">
+    </audio>
+    <audio id="slapAudio">
+      <source src="./Sounds/slapsound.wav" type="audio/wav">
+    </audio>
+    <audio id="starAudio">
+      <source src="./Sounds/starsound.wav" type="audio/wav">
     </audio>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

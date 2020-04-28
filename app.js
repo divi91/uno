@@ -526,6 +526,15 @@ io.sockets.on('connection', function(socket)
       //console.log(players);
       SOCKET_LIST[i].emit('played',players,playedCards,playerName,cardPlayed, winners);
       SOCKET_LIST[i].emit('reversed',reverse);
+      if(cardPlayed.includes('Draw'))
+      {
+        SOCKET_LIST[i].emit('addToChat','Draw cards from deck');
+      }
+      if(cardPlayed.includes('Invincible'))
+      {
+        SOCKET_LIST[i].emit('addToChat','STAR');
+      }
+
     }
   });
 

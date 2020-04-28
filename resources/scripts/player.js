@@ -248,6 +248,24 @@ socket.on('addToChat',function(data)
 			console.error(error);
 		}
   }
+	if(data.includes("Draw cards from deck"))
+  {
+  	try {
+			evillaughAudio.play();
+		}
+		catch(error) {
+			console.error(error);
+		}
+  }
+	if(data.includes("STAR"))
+  {
+  	try {
+			starAudio.play();
+		}
+		catch(error) {
+			console.error(error);
+		}
+  }
   chatText.innerHTML += '<div class="chatCell">' + data + '</div>';
   chatText.scrollTop = chatText.scrollHeight;
 });
@@ -414,6 +432,18 @@ buttonCheck.addEventListener('click', function(e) {
 		console.error(error);
 	}
 	socket.emit('sendMsgToServer', playerName.value +' : said Check');
+});
+
+const buttonSlap = document.getElementById('btnSlap');
+buttonSlap.addEventListener('click', function(e) {
+	e.preventDefault();
+	try {
+		slapAudio.play();
+	}
+	catch(error) {
+		console.error(error);
+	}
+	socket.emit('sendMsgToServer', playerName.value +' : Slapped!');
 });
 
 function startDrag(e) {

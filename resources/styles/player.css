@@ -152,13 +152,26 @@ body{
   padding: 0 2% 0 2%;
 }
 .imgDeck {
-    height:20%;
+    height:90%;
     width: auto;
     display:inline-block;
 }
 .drawInformation{
   color:white;
   height: 2%;
+}
+.btnSlap{
+    background:#2ecc71;
+    font-size: 1.2em;
+    color:white;
+    border-radius:6px;
+    margin-left: 2%;
+    width: 7em;
+    /* height: 10%; */
+    align-items: center;
+}
+#divbtnSlap{
+  padding-top: 5%;
 }
 .divPlayedCardArea{
   background: #8499db;
@@ -237,6 +250,12 @@ body{
   }
   .btnCheckUno{
     font-size: 13px;
+  }
+  .btnSlap{
+    font-size: 13px;
+  }
+  #divbtnSlap{
+    padding-left: 2%;
   }
   .btnAddMe{
     font-size: 13px;
