@@ -174,7 +174,8 @@ socket.on('played',function(players,playedCards,lastPlayerName, lastCardPlayed, 
 		lastElemImg.setAttribute("class", "playedCardImage");
 		lastElem.appendChild(lastElemImg);
 		playedCardDiv.appendChild(lastElem);
-		lastElem.scrollIntoView();
+		// lastElem.scrollIntoView();
+		playedCardDiv.scrollLeft = playedCardDiv.scrollWidth;
 	}
 
 	if(lastCardPlayed.includes('noCard'))
