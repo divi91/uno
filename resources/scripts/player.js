@@ -166,16 +166,23 @@ socket.on('played',function(players,playedCards,lastPlayerName, lastCardPlayed, 
 				playedCardDiv.appendChild(fElem);
 			}
 		}
-		var lastElem = document.createElement("figure");
-		lastElem.setAttribute("class","figureitem");
-		var lastElemImg = document.createElement("img");
-		lastElemImg.setAttribute("src", "./images/emptyImg.jpg");
-		lastElemImg.setAttribute("id","emptyImg");
-		lastElemImg.setAttribute("class", "playedCardImage");
-		lastElem.appendChild(lastElemImg);
-		playedCardDiv.appendChild(lastElem);
-		// lastElem.scrollIntoView();
-		playedCardDiv.scrollLeft = playedCardDiv.scrollWidth;
+		var deviceWidth = window.matchMedia("(max-width: 767px)")
+		if(deviceWidth.matches)
+		{
+			playedCardDiv.scrollTop = playedCardDiv.scrollHeight;
+		}
+		else
+		{
+			var lastElem = document.createElement("figure");
+			lastElem.setAttribute("class","figureitem");
+			var lastElemImg = document.createElement("img");
+			lastElemImg.setAttribute("src", "./images/emptyImg.jpg");
+			lastElemImg.setAttribute("id","emptyImg");
+			lastElemImg.setAttribute("class", "playedCardImage");
+			lastElem.appendChild(lastElemImg);
+			playedCardDiv.appendChild(lastElem);
+			playedCardDiv.scrollLeft = playedCardDiv.scrollWidth;
+		}
 	}
 
 	if(lastCardPlayed.includes('noCard'))
@@ -555,15 +562,23 @@ socket.on('undoPlayed',function(players,playedCards,lastPlayerName,winners)
 				playedCardDiv.appendChild(fElem);
 			}
 		}
-		var lastElem = document.createElement("figure");
-		lastElem.setAttribute("class","figureitem");
-		var lastElemImg = document.createElement("img");
-		lastElemImg.setAttribute("src", "./images/emptyImg.jpg");
-		lastElemImg.setAttribute("id","emptyImg");
-		lastElemImg.setAttribute("class", "playedCardImage");
-		lastElem.appendChild(lastElemImg);
-		playedCardDiv.appendChild(lastElem);
-		playedCardDiv.scrollLeft = playedCardDiv.scrollWidth;
+		var deviceWidth = window.matchMedia("(max-width: 767px)")
+		if(deviceWidth.matches)
+		{
+			playedCardDiv.scrollTop = playedCardDiv.scrollHeight;
+		}
+		else
+		{
+			var lastElem = document.createElement("figure");
+			lastElem.setAttribute("class","figureitem");
+			var lastElemImg = document.createElement("img");
+			lastElemImg.setAttribute("src", "./images/emptyImg.jpg");
+			lastElemImg.setAttribute("id","emptyImg");
+			lastElemImg.setAttribute("class", "playedCardImage");
+			lastElem.appendChild(lastElemImg);
+			playedCardDiv.appendChild(lastElem);
+			playedCardDiv.scrollLeft = playedCardDiv.scrollWidth;
+		}
 	}
 	document.getElementById('drawValue').innerHTML = lastPlayerName + ' undid move';
 });

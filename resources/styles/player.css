@@ -315,4 +315,7 @@ body{
   .drawInformation{
     font-size: 8px;
   }
+  .figureitem {
+    float: right;
+  }
 }
