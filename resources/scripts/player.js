@@ -582,3 +582,9 @@ socket.on('undoPlayed',function(players,playedCards,lastPlayerName,winners)
 	}
 	document.getElementById('drawValue').innerHTML = lastPlayerName + ' undid move';
 });
+
+socket.on('playerdeleted',function(dplayerName)
+{
+	if(playerName.value==dplayerName)
+	location.reload();
+});

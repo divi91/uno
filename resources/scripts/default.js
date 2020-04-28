@@ -57,6 +57,21 @@ btnRestartGame.addEventListener('click', function(e) {
   socket.emit('restartGame');
 });
 
+// const btnDeletePlayer = document.getElementById('btnDeletePlayer');
+// const playerId=document.getElementById('deletedPlayerId').value;
+// btnDeletePlayer.addEventListener('click', function(e) {
+//   e.preventDefault();
+// 	console.log('from client side: '+playerId);
+//   //socket.emit('deletePlayer',playerId);
+// });
+
+deleteform.onsubmit = function(e)
+{
+	// e.preventDefault();
+	const playerId=document.getElementById('deletedPlayerId').value;
+	socket.emit('deletePlayer',playerId);
+}
+
 socket.on('getcards',function(data,index){
   console.log('players are getting cards');
   console.log(data);

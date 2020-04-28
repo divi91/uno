@@ -171,8 +171,20 @@ io.sockets.on('connection', function(socket)
 
   socket.on('disconnect',function()
   {
-    delete SOCKET_LIST[socket.id];
+    var playerId;
+    for(var i in SOCKET_LIST)
+    {
+      if(SOCKET_LIST[i]==socket)
+      {
+        playerId=i;
+      }
+    }
+    if(!(playerId==null))
+    {
+      deletePlayerWithId(playerId);
+    }
   });
+
 
   function shuffle(array){
     //console.log(array);
@@ -249,18 +261,21 @@ io.sockets.on('connection', function(socket)
       {
         return play.name === playerName ;
       });
-      thisPlayer.cards.push(cards.shift()) ;
-      thisPlayer.cardCount +=1 ;
-      thisPlayer.playerTurn = false;
-      playerturnId +=1;
-      if(playerturnId < players.length)
+      if(!(thisPlayer==null))
       {
-        players[playerturnId].playerTurn = true;
-      }
-      else
-      {
-        playerturnId = 0;
-        players[playerturnId].playerTurn = true;
+        thisPlayer.cards.push(cards.shift()) ;
+        thisPlayer.cardCount +=1 ;
+        thisPlayer.playerTurn = false;
+        playerturnId +=1;
+        if(playerturnId < players.length)
+        {
+          players[playerturnId].playerTurn = true;
+        }
+        else
+        {
+          playerturnId = 0;
+          players[playerturnId].playerTurn = true;
+        }
       }
     }
   }
@@ -283,25 +298,27 @@ io.sockets.on('connection', function(socket)
       {
         return play.name === playerName ;
       });
-
-      var index = thisPlayer.cards.indexOf(cardplayed);
-      if (index !== -1) thisPlayer.cards.splice(index, 1);
-      playedCards.push(cardplayed);
-      if((playedCards.length>4)&&(playedCards.length > players.length))
+      if(!(thisPlayer==null))
       {
-        cards.push(playedCards.shift());
-      }
-      thisPlayer.cardCount-=1;
-      thisPlayer.playerTurn = false;
-      playerturnId +=1;
-      if(playerturnId < players.length)
-      {
-        players[playerturnId].playerTurn = true;
-      }
-      else
-      {
-        playerturnId = 0;
-        players[playerturnId].playerTurn = true;
+        var index = thisPlayer.cards.indexOf(cardplayed);
+        if (index !== -1) thisPlayer.cards.splice(index, 1);
+        playedCards.push(cardplayed);
+        if((playedCards.length>4)&&(playedCards.length > players.length))
+        {
+          cards.push(playedCards.shift());
+        }
+        thisPlayer.cardCount-=1;
+        thisPlayer.playerTurn = false;
+        playerturnId +=1;
+        if(playerturnId < players.length)
+        {
+          players[playerturnId].playerTurn = true;
+        }
+        else
+        {
+          playerturnId = 0;
+          players[playerturnId].playerTurn = true;
+        }
       }
     }
   }
@@ -494,11 +511,8 @@ io.sockets.on('connection', function(socket)
 
   socket.on('getFromDeck',function(data)
   {
-    //console.log('sending one card to requested player');
     giveFromDeck(cards,players,data);
     for(var i in SOCKET_LIST){
-      //console.log('sending players with cards');
-      //console.log(players);
       SOCKET_LIST[i].emit('getcards',players,playedCards,winners);
       SOCKET_LIST[i].emit('played',players,playedCards,data,'noCard',winners);
       SOCKET_LIST[i].emit('reversed',reverse);
@@ -590,24 +604,55 @@ io.sockets.on('connection', function(socket)
       {
         return play.name === playerName ;
       });
-
-      var index = playedCards.indexOf(cardplayed);
-      if (index !== -1) playedCards.splice(index, 1);
-      thisPlayer.cards.push(cardplayed);
-      thisPlayer.cardCount+=1;
-      thisPlayer.playerTurn = true;
-      playerturnId =thisPlayer.id;
-
-      if(winners.includes(thisPlayer.name))
+      if(!(thisPlayer==null))
       {
-        winners.splice(winners.lastIndexOf(thisPlayer.name),1);
-        for(var i in SOCKET_LIST){
-          SOCKET_LIST[i].emit('addToChat',thisPlayer.name + ' has not won');
+        var index = playedCards.indexOf(cardplayed);
+        if (index !== -1) playedCards.splice(index, 1);
+        thisPlayer.cards.push(cardplayed);
+        thisPlayer.cardCount+=1;
+        thisPlayer.playerTurn = true;
+        playerturnId =thisPlayer.id;
+
+        if(winners.includes(thisPlayer.name))
+        {
+          winners.splice(winners.lastIndexOf(thisPlayer.name),1);
+          for(var i in SOCKET_LIST){
+            SOCKET_LIST[i].emit('addToChat',thisPlayer.name + ' has not won');
+          }
         }
       }
     }
   }
 
+  socket.on('deletePlayer',function(playerId)
+  {
+    deletePlayerWithId(playerId);
+  });
+
+  function deletePlayerWithId(playerId)
+  {
+    if(!(players[playerId]==null))
+    {
+      var deletedPlayerName;
+      deletedPlayerName=players[playerId].name;
+      while(players[playerId].cards.length>0)
+      {
+        cards.push(players[playerId].cards.shift());
+      }
+      players.splice(playerId, 1);
+      for(var i in SOCKET_LIST){
+        SOCKET_LIST[i].emit('playerdeleted',deletedPlayerName);
+      }
+      delete SOCKET_LIST[playerId];
+      console.log('disconnected:'+deletedPlayerName);
+      for(var i in SOCKET_LIST){
+        SOCKET_LIST[i].emit('addToChat', deletedPlayerName+" was disconnected");
+      }
+      for(var i in SOCKET_LIST){
+        SOCKET_LIST[i].emit('played',players,playedCards,'','', winners);
+      }
+    }
+  }
 });
 
 
