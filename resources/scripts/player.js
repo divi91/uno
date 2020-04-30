@@ -588,3 +588,11 @@ socket.on('playerdeleted',function(dplayerName)
 	if(playerName.value==dplayerName)
 	location.reload();
 });
+
+socket.on('duplicatePlayer',function(message)
+{
+	alert('Name already taken, please choose a different name.');
+	var name= document.getElementById('playerName');
+	name.value='';
+	name.focus();
+});

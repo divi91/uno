@@ -149,16 +149,34 @@ io.sockets.on('connection', function(socket)
   console.log('Connected');
   socket.on('playerRegister',function(data)
   {
-  	SOCKET_LIST[playerId] = socket;
-    if(!(data== null))
+    var playerNameExists=false;
+    for(var item in players)
     {
-      players[playerId] = {id: playerId, name: data, cardCount:0, score:0, cards:[], playerTurn: false};
-      console.log('added :' + players[playerId].name);
+      if(players[item].name.toLowerCase()==data.toLowerCase())
+      {
+        playerNameExists=true;
+      }
     }
-    for(var i in SOCKET_LIST){
-      SOCKET_LIST[i].emit('addToPlayer', players,playerId);
+    console.log(playerNameExists);
+    if(playerNameExists)
+    {
+      SOCKET_LIST[playerId]=socket;
+      SOCKET_LIST[playerId].emit('duplicatePlayer','Player already exists');
+      delete SOCKET_LIST[playerId];
     }
-  	playerId++;
+    else
+    {
+    	SOCKET_LIST[playerId] = socket;
+      if(!(data== null))
+      {
+        players[playerId] = {id: playerId, name: data, cardCount:0, score:0, cards:[], playerTurn: false};
+        console.log('added :' + players[playerId].name);
+      }
+      for(var i in SOCKET_LIST){
+        SOCKET_LIST[i].emit('addToPlayer', players,playerId);
+      }
+    	playerId++;
+    }
   });
 
   socket.on('sendMsgToServer',function(data)
