@@ -385,12 +385,18 @@ function displayPlayers(item, winners, lastPlayerName, newPlayer)
 			if(item[index].name == lastPlayerName)
 			{
 				listElem.setAttribute("class","listLastPlayer");
+				listElem.setAttribute("id","listLastPlayer");
 			}
 		}
 
 		oListElem.appendChild(listElem);
   }
 	playerlist.appendChild(oListElem);
+	var lastPlayedPlayer=document.getElementById('listLastPlayer');
+	if(!(lastPlayedPlayer==null))
+	{
+		lastPlayedPlayer.scrollIntoView();
+	}
   if(someoneWon==true)
   {
   	if(winner!=null)

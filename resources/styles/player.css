@@ -285,6 +285,7 @@ body{
   }
   .divPlayersListBox{
     font-size: 10px;
+    padding-left: 7%;
   }
   .divChatBox{
     font-size: 10px;
