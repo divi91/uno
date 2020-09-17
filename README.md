@@ -3,9 +3,6 @@ This is a uno game for learning, this is built on node.
 
 Dependencies:  Express, Socket.IO
 
-You can test the game at - https://uno-testapp.herokuapp.com (dealer page)   &     https://uno-testapp.herokuapp.com/player (player page)
-Follow the instructions below to play the game
-
 To run on local-
     - open terminal
     - change directory in terminal to the downloaded uno-master folder
