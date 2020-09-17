@@ -3,9 +3,16 @@ This is a uno game for learning, this is built on node.
 
 Dependencies:  Express, Socket.IO
 
-To start the app - Open terminal and use either of Node start or node app.js commands.
-    - change directory in terminal to the uno-master folder
+You can test the game at - https://uno-testapp.herokuapp.com (dealer page)   &     https://uno-testapp.herokuapp.com/player (player page)
+Follow the instructions below to play the game
+
+To run on local-
+    - open terminal
+    - change directory in terminal to the downloaded uno-master folder
     - npm start
+    
+    
+Instructions to Play-
 
 Open the dealer page (anyone can be dealer along with being a player) - localhost:5000
 Each player should open the player page (the dealer should open this in a new tab) - localhost:5000/player
